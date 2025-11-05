@@ -4,6 +4,8 @@ import AuthProvider from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import LayoutComponent from "./_Components/layout";
 import { AlertShowHideProvider } from "./Context/SnackBar";
+import Header from "./_Components/Header/Header";
+import ReduxProvider from "./ReduxProvider";
 
 export const metadata: Metadata = {
   title: "eCom",
@@ -16,20 +18,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <AlertShowHideProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <AuthProvider>
-              <LayoutComponent>{children}</LayoutComponent>
-            </AuthProvider>
-          </ThemeProvider>
-        </AlertShowHideProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <ReduxProvider>
+          <AlertShowHideProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <AuthProvider>
+                {/* Header will handle its own client-side logic */}
+                <Header />
+                <LayoutComponent>{children}</LayoutComponent>
+              </AuthProvider>
+            </ThemeProvider>
+          </AlertShowHideProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
