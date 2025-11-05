@@ -1,2 +1,3 @@
-const domin = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const domin = "https://full-stack-e-com-lemon.vercel.app";
+//   "http://localhost:3000";
 export default domin;
