@@ -4,7 +4,6 @@ import AuthProvider from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/theme-provider";
 import LayoutComponent from "./_Components/layout";
 import { AlertShowHideProvider } from "./Context/SnackBar";
-import Header from "./_Components/Header/Header";
 import ReduxProvider from "./ReduxProvider";
 
 export const metadata: Metadata = {
@@ -29,8 +28,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <AuthProvider>
-                {/* Header will handle its own client-side logic */}
-                <Header />
+             
                 <LayoutComponent>{children}</LayoutComponent>
               </AuthProvider>
             </ThemeProvider>

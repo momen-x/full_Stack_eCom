@@ -1,5 +1,6 @@
 "use client";
 import { useSession, signIn } from "next-auth/react";
+import Header from "@/app/_Components/Header/Header";
 
 export default function LayoutComponent({
   children,
@@ -23,5 +24,11 @@ export default function LayoutComponent({
     );
   }
 
-  return <div className="min-h-screen w-full">{children}</div>;
+  return (
+    <div className="min-h-screen w-full">
+      {/* Header will handle its own client-side logic */}
+      <Header />
+      {children}
+    </div>
+  );
 }
