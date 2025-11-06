@@ -43,10 +43,10 @@
 
 // lib/auth.ts
 // auth.ts
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth, { DefaultSession } from "next-auth";
-import clientPromise from "@/lib/db";
-import authConfig from "@/auth.config";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import clientPromise from "./lib/db";
+import authConfig from "./auth.config";
 import { ICartState } from "./app/store/Cart/CartSlice";
 
 declare module "next-auth" {
@@ -67,37 +67,37 @@ declare module "next-auth" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   trustHost: true,
-  useSecureCookies: process.env.NODE_ENV === "production",
-  cookies: {
-    sessionToken: {
-      name: `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
+
+  // Use JWT strategy for better compatibility
+  session: {
+    strategy: "jwt",
   },
 
   adapter: MongoDBAdapter(clientPromise),
 
-  session: {
-    strategy: "jwt",
-    // "database",
-  },
-
   callbacks: {
-    async session({ session, user }) {
+    async session({ session, token }) {
+      // For JWT strategy, use token; for database, use user
       if (session.user) {
-        session.user.id = user.id;
-
-        // Simply use the isAdmin field from the database user object
-        // No cache, always fresh from DB
-        session.user.isAdmin = Boolean(user.isAdmin);
+        session.user.id = token.sub as string;
+        session.user.isAdmin = Boolean(token.isAdmin) || false;
       }
       return session;
     },
+
+    async jwt({ token, user }) {
+      // Add isAdmin to token if user exists
+      if (user) {
+        token.isAdmin = (user as any).isAdmin || false;
+      }
+      return token;
+    },
+  },
+
+  // Add pages configuration if needed
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error",
   },
 });
 
