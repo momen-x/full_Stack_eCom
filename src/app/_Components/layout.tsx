@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag, Star, Zap } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Fotter from "./Fotter";
+import packgroundImage from "@/app/assets/backGround_e-commarce.jpg";
 
 export default function LayoutComponent({
   children,
@@ -29,10 +30,11 @@ export default function LayoutComponent({
                 </span>
               </Link>
               <div className="flex items-center gap-3">
+                {/* FIXED: Remove asChild or provide proper child */}
                 <Button
-                  variant="ghost"
-                  asChild
+                  variant="default"
                   onClick={() => signIn("google")}
+                  className="font-semibold"
                 >
                   Log in
                 </Button>
@@ -74,7 +76,7 @@ export default function LayoutComponent({
               <div className="hidden md:block">
                 <div className="relative aspect-square bg-linear-to-br from-primary/10 to-accent/10 rounded-2xl overflow-hidden">
                   <img
-                    src="/luxury-fashion-showcase.jpg"
+                    src={packgroundImage.src}
                     alt="Fashion showcase"
                     className="w-full h-full object-cover"
                   />
@@ -230,14 +232,14 @@ export default function LayoutComponent({
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* FIXED: Remove asChild or provide proper child */}
               <Button
                 size="lg"
                 variant="secondary"
-                asChild
-                className="text-base font-semibold"
                 onClick={() => signIn("google")}
+                className="text-base font-semibold"
               >
-                Log in now
+                Sign In to Shop
               </Button>
             </div>
           </div>
