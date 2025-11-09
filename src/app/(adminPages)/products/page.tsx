@@ -75,146 +75,151 @@ const ProductsManagementPage = async () => {
                   <Link href="/products">Refresh</Link>
                 </Button>
               </div>
-            ) : products.length === 0 ? (
-              <div className="text-center p-8 text-muted-foreground">
-                <p className="mb-4">No products found.</p>
-                <Button asChild>
-                  <Link href="/products/new">Add your first product</Link>
-                </Button>
-              </div>
             ) : (
-              <>
-                {/* Desktop Table */}
-                <div className="hidden md:block border rounded-lg overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[250px]">
-                          Product Name
-                        </TableHead>
-                        <TableHead className="w-[120px]">Price</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead className="w-[150px]">
-                          Created Date
-                        </TableHead>
-                        <TableHead className="text-right w-[180px]">
-                          Actions
-                        </TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {products.map((product) => (
-                        <TableRow key={product._id}>
-                          <TableCell className="font-medium">
-                            <Link
-                              href={`/products/${product._id}`}
-                              className="hover:text-blue-600 hover:underline"
-                            >
-                              {product.name}
-                            </Link>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline" className="font-semibold">
-                              ${product.price.toFixed(2)}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="max-w-[300px] truncate">
-                            {product.description}
-                          </TableCell>
-                          <TableCell className="text-sm text-muted-foreground">
-                            {product.createdAt
-                              ? new Date(product.createdAt).toLocaleDateString(
-                                  "en-US",
-                                  {
+              products.length !== 0 && (
+                <>
+                  {/* Desktop Table */}
+                  <div className="hidden md:block border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-[250px]">
+                            Product Name
+                          </TableHead>
+                          <TableHead className="w-[120px]">Price</TableHead>
+                          <TableHead>Description</TableHead>
+                          <TableHead className="w-[150px]">
+                            Created Date
+                          </TableHead>
+                          <TableHead className="text-right w-[180px]">
+                            Actions
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {products.map((product) => (
+                          <TableRow key={product._id}>
+                            <TableCell className="font-medium">
+                              <Link
+                                href={`/products/${product._id}`}
+                                className="hover:text-blue-600 hover:underline"
+                              >
+                                {product.name}
+                              </Link>
+                            </TableCell>
+                            <TableCell>
+                              <Badge
+                                variant="outline"
+                                className="font-semibold"
+                              >
+                                ${product.price.toFixed(2)}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="max-w-[300px] truncate">
+                              {product.description}
+                            </TableCell>
+                            <TableCell className="text-sm text-muted-foreground">
+                              {product.createdAt
+                                ? new Date(
+                                    product.createdAt
+                                  ).toLocaleDateString("en-US", {
                                     year: "numeric",
                                     month: "short",
                                     day: "numeric",
-                                  }
-                                )
-                              : "N/A"}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-3">
-                              <Link
-                                href={`/products/${product._id}`}
-                                className="text-blue-600 hover:underline text-sm font-medium"
-                              >
-                                View <Eye />
-                              </Link>
-                              <Link
-                                href={`/products/${product._id}/edit`}
-                                className="text-green-600 hover:underline text-sm font-medium"
-                              >
-                                Edit <Pencil />
-                              </Link>
+                                  })
+                                : "N/A"}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex justify-end gap-3">
+                                <Link
+                                  href={`/products/${product._id}`}
+                                  className="text-blue-600 hover:underline text-sm font-medium"
+                                >
+                                  View <Eye />
+                                </Link>
+                                <Link
+                                  href={`/products/${product._id}/edit`}
+                                  className="text-green-600 hover:underline text-sm font-medium"
+                                >
+                                  Edit <Pencil />
+                                </Link>
 
+                                <DeleteBTN
+                                  id={product._id}
+                                  productName={product.name}
+                                />
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+
+                  {/* Mobile Cards */}
+                  <div className="md:hidden space-y-4">
+                    {products.map((product) => (
+                      <Card key={product._id}>
+                        <CardContent className="pt-6">
+                          <div className="space-y-3">
+                            <div className="flex justify-between items-start">
+                              <h3 className="font-semibold text-lg">
+                                {product.name}
+                              </h3>
+                              <Badge
+                                variant="outline"
+                                className="font-semibold"
+                              >
+                                ${product.price.toFixed(2)}
+                              </Badge>
+                            </div>
+
+                            <p className="text-sm text-muted-foreground line-clamp-2">
+                              {product.description}
+                            </p>
+
+                            {product.createdAt && (
+                              <p className="text-xs text-muted-foreground">
+                                Created:{" "}
+                                {new Date(
+                                  product.createdAt
+                                ).toLocaleDateString()}
+                              </p>
+                            )}
+
+                            <div className="flex gap-2 pt-2">
+                              <Button
+                                asChild
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                              >
+                                <Link href={`/products/${product._id}`}>
+                                  View <Eye />
+                                </Link>
+                              </Button>
+                              <Button
+                                asChild
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                              >
+                                <Link href={`/products/${product._id}/edit`}>
+                                  Edit <Pencil />
+                                </Link>
+                              </Button>
                               <DeleteBTN
                                 id={product._id}
                                 productName={product.name}
                               />
                             </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-
-                {/* Mobile Cards */}
-                <div className="md:hidden space-y-4">
-                  {products.map((product) => (
-                    <Card key={product._id}>
-                      <CardContent className="pt-6">
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-start">
-                            <h3 className="font-semibold text-lg">
-                              {product.name}
-                            </h3>
-                            <Badge variant="outline" className="font-semibold">
-                              ${product.price.toFixed(2)}
-                            </Badge>
                           </div>
-
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {product.description}
-                          </p>
-
-                          {product.createdAt && (
-                            <p className="text-xs text-muted-foreground">
-                              Created:{" "}
-                              {new Date(product.createdAt).toLocaleDateString()}
-                            </p>
-                          )}
-
-                          <div className="flex gap-2 pt-2">
-                            <Button
-                              asChild
-                              variant="outline"
-                              size="sm"
-                              className="flex-1"
-                            >
-                              <Link href={`/products/${product._id}`}>
-                                View <Eye />
-                              </Link>
-                            </Button>
-                            <Button
-                              asChild
-                              variant="outline"
-                              size="sm"
-                              className="flex-1"
-                            >
-                              <Link href={`/products/${product._id}/edit`}>
-                                Edit <Pencil />
-                              </Link>
-                            </Button>
-                            <DeleteBTN id={product._id} productName={product.name} />
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </>
+              )
             )}
           </CardContent>
         </Card>
