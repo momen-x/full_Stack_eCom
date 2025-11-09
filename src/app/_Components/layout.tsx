@@ -7,7 +7,11 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag, Star, Zap } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Fotter from "./Fotter";
-import packgroundImage from "@/app/assets/newBackground.jpg";
+// import packgroundImage from "@/app/assets/newBackground.jpg";
+import bg_dark from "@/app/assets/bg_dark.jpg";
+import bg_light from "@/app/assets/bg_light.jpg";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function LayoutComponent({
   children,
@@ -15,7 +19,13 @@ export default function LayoutComponent({
   children: React.ReactNode;
 }) {
   const { data: session } = useSession();
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
   if (!session) {
     return (
       <div className="min-h-screen bg-background">
@@ -75,11 +85,19 @@ export default function LayoutComponent({
               </div>
               <div className="hidden md:block">
                 <div className="relative aspect-square bg-linear-to-br from-primary/10 to-accent/10 rounded-2xl overflow-hidden">
-                  <img
-                    src={packgroundImage.src}
-                    alt="Fashion showcase"
-                    className="w-full h-full object-cover"
-                  />
+                  {mounted && theme === "dark" ? (
+                    <img
+                      src={bg_dark.src}
+                      alt="Fashion showcase dark theme"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={bg_light.src}
+                      alt="Fashion showcase light theme"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
                 </div>
               </div>
             </div>
