@@ -1,20 +1,20 @@
-"use client";
-
 import getProductsFromDB, { Iproducts } from "@/app/server/getProducts";
 import { useEffect, useState } from "react";
 import defaultImage from "@/app/assets/defualtImage.png";
-import DisplayProductList from "./DisplayProductsList";
 import { ShoppingCart, TrendingUp } from "lucide-react";
+import DisplayProductList from "./DisplayProductsList";
 
 const DisplayUserProducts = () => {
   const [productData, setProductData] = useState<Iproducts[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/immutability
     getProducts();
   }, []);
 
   const getProducts = async () => {
     try {
+      setIsLoading(true); // Start loading
       const data = (await getProductsFromDB()).products;
       const ListOfProduct = data.map((product) => {
         return {
@@ -32,11 +32,13 @@ const DisplayUserProducts = () => {
       setProductData(ListOfProduct);
     } catch (error) {
       console.error("Error fetching products:", error);
+    } finally {
+      setIsLoading(false); // Stop loading regardless of success/error
     }
   };
 
   return (
-    <div className="min-h-screen  from-background via-background to-muted/20 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen from-background via-background to-muted/20 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-8 space-y-2">
@@ -54,11 +56,20 @@ const DisplayUserProducts = () => {
           </p>
         </div>
 
-        {/* Products Grid */}
-        <DisplayProductList products={productData} />
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        )}
 
-        {/* Empty State */}
-        {productData.length === 0 && (
+        {/* Products Grid - Only show when not loading AND has products */}
+        {!isLoading && productData.length > 0 && (
+          <DisplayProductList products={productData} />
+        )}
+
+        {/* Empty State - Only show when not loading AND no products */}
+        {!isLoading && productData.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="h-24 w-24 rounded-full bg-muted flex items-center justify-center mb-4">
               <ShoppingCart className="h-12 w-12 text-muted-foreground" />
