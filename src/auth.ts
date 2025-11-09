@@ -1,3 +1,71 @@
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import NextAuth, { DefaultSession } from "next-auth";
+import clientPromise from "@/lib/db";
+import authConfig from "@/auth.config";
+import { ICartState } from "./app/store/Cart/CartSlice";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      isAdmin: boolean;
+      wishlist: string[];
+      order: ICartState[];
+    } & DefaultSession["user"];
+  }
+
+  interface User {
+    isAdmin?: boolean;
+  }
+}
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
+  trustHost: true,
+
+  adapter: MongoDBAdapter(clientPromise),
+
+  session: {
+    strategy: "database",
+  },
+
+  callbacks: {
+    async session({ session, user }) {
+      if (session.user) {
+        session.user.id = user.id;
+        session.user.isAdmin = Boolean(user.isAdmin);
+      }
+      return session;
+    },
+
+    // Add this callback to handle redirects properly
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+  },
+});
+/** ```
+
+## 3. **Google Cloud Console - Update Authorized Redirect URIs**
+
+Add these URLs to your Google OAuth credentials:
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Navigate to **APIs & Services** → **Credentials**
+3. Click on your OAuth 2.0 Client ID
+4. Under **Authorized redirect URIs**, add:
+```
+// https://full-stack-e-com-five.vercel.app/api/auth/callback/google
+```
+
+Also add your local development URL:
+```
+http://localhost:3000/api/auth/callback/google*/
+
 // // lib/auth.ts
 // import { MongoDBAdapter } from "@auth/mongodb-adapter";
 // import NextAuth, { DefaultSession } from "next-auth";
@@ -43,63 +111,108 @@
 
 // lib/auth.ts
 // auth.ts
-import NextAuth, { DefaultSession } from "next-auth";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "./lib/db";
-import authConfig from "./auth.config";
-import { ICartState } from "./app/store/Cart/CartSlice";
+// import { MongoDBAdapter } from "@auth/mongodb-adapter";
+// import NextAuth, { DefaultSession } from "next-auth";
+// import clientPromise from "@/lib/db";
+// import authConfig from "@/auth.config";
+// import { ICartState } from "./app/store/Cart/CartSlice";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      isAdmin: boolean;
-      wishlist: string[];
-      order: ICartState[];
-    } & DefaultSession["user"];
-  }
+// declare module "next-auth" {
+//   interface Session {
+//     user: {
+//       id: string;
+//       isAdmin: boolean;
+//       wishlist: string[];
+//       order: ICartState[];
+//     } & DefaultSession["user"];
+//   }
 
-  interface User {
-    isAdmin?: boolean;
-  }
-}
+//   interface User {
+//     isAdmin?: boolean;
+//   }
+// }
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  ...authConfig,
-  trustHost: true,
+// export const { handlers, auth, signIn, signOut } = NextAuth({
+//   ...authConfig,
+//   // Add this for production
+//   trustHost: true,
 
-  // Use JWT strategy for better compatibility
-  session: {
-    strategy: "jwt",
-  },
+//   adapter: MongoDBAdapter(clientPromise),
 
-  adapter: MongoDBAdapter(clientPromise),
+//   session: {
+//     strategy: "database",
+//   },
 
-  callbacks: {
-    async session({ session, token }) {
-      // For JWT strategy, use token; for database, use user
-      if (session.user) {
-        session.user.id = token.sub as string;
-        session.user.isAdmin = Boolean(token.isAdmin) || false;
-      }
-      return session;
-    },
+//   callbacks: {
+//     async session({ session, user }) {
+//       if (session.user) {
+//         session.user.id = user.id;
 
-    async jwt({ token, user }) {
-      // Add isAdmin to token if user exists
-      if (user) {
-        token.isAdmin = (user as any).isAdmin || false;
-      }
-      return token;
-    },
-  },
+//         // Simply use the isAdmin field from the database user object
+//         // No cache, always fresh from DB
+//         session.user.isAdmin = Boolean(user.isAdmin);
+//       }
+//       return session;
+//     },
+//   },
+// });
 
-  // Add pages configuration if needed
-  pages: {
-    signIn: "/auth/signin",
-    error: "/auth/error",
-  },
-});
+// import NextAuth, { DefaultSession } from "next-auth";
+// import { MongoDBAdapter } from "@auth/mongodb-adapter";
+// import clientPromise from "./lib/db";
+// import authConfig from "./auth.config";
+// import { ICartState } from "./app/store/Cart/CartSlice";
+
+// declare module "next-auth" {
+//   interface Session {
+//     user: {
+//       id: string;
+//       isAdmin: boolean;
+//       wishlist: string[];
+//       order: ICartState[];
+//     } & DefaultSession["user"];
+//   }
+
+//   interface User {
+//     isAdmin?: boolean;
+//   }
+// }
+
+// export const { handlers, auth, signIn, signOut } = NextAuth({
+//   ...authConfig,
+//   trustHost: true,
+
+//   session: {
+//     strategy: "jwt", // Use JWT instead of database
+//   },
+
+//   adapter: MongoDBAdapter(clientPromise),
+
+//   callbacks: {
+//     async session({ session, token }) {
+//       if (session.user) {
+//         session.user.id = token.sub as string;
+//         session.user.isAdmin = Boolean(token.isAdmin) || false;
+//         // Initialize arrays if needed
+//         session.user.wishlist = [];
+//         session.user.order = [];
+//       }
+//       return session;
+//     },
+
+//     async jwt({ token, user }) {
+//       if (user) {
+//         token.isAdmin = (user as any).isAdmin || false;
+//       }
+//       return token;
+//     },
+//   },
+
+//   pages: {
+//     signIn: "/auth/signin",
+//     error: "/auth/error", // Make sure this matches your route
+//   },
+// });
 
 // lib/auth.ts
 // import { MongoDBAdapter } from "@auth/mongodb-adapter";
