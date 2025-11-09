@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag, Star, Zap } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Fotter from "./Fotter";
-// import packgroundImage from "@/app/assets/newBackground.jpg";
+import packgroundImage from "@/app/Logo.ico";
 import bg_dark from "@/app/assets/bg_dark.jpg";
 import bg_light from "@/app/assets/bg_light.jpg";
 import { useTheme } from "next-themes";
@@ -34,10 +34,8 @@ export default function LayoutComponent({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <Link href="/" className="flex items-center gap-2">
-                <ShoppingBag className="w-8 h-8 text-primary" />
-                <span className="text-2xl font-bold text-foreground">
-                  StyleHub
-                </span>
+                <img src={packgroundImage.src} alt="logo" />
+                <span className="text-2xl font-bold text-foreground">eCom</span>
               </Link>
               <div className="flex items-center gap-3">
                 {/* FIXED: Remove asChild or provide proper child */}
