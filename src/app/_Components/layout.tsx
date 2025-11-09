@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag, Star, Zap } from "lucide-react";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Fotter from "./Fotter";
-import packgroundImage from "@/app/assets/backGround_e-commarce.jpg";
+import packgroundImage from "@/app/assets/newBackground.jpg";
 
 export default function LayoutComponent({
   children,
