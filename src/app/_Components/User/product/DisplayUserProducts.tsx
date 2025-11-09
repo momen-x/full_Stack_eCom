@@ -1,3 +1,4 @@
+"use client"
 import getProductsFromDB, { Iproducts } from "@/app/server/getProducts";
 import { useEffect, useState } from "react";
 import defaultImage from "@/app/assets/defualtImage.png";
