@@ -5,6 +5,8 @@ import Header from "@/app/_Components/Header/Header";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Star, Zap } from "lucide-react";
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import Fotter from "./Fotter";
 
 export default function LayoutComponent({
   children,
@@ -26,26 +28,6 @@ export default function LayoutComponent({
                   StyleHub
                 </span>
               </Link>
-              {/* <nav className="hidden md:flex items-center gap-8">
-                <Link
-                  href="#products"
-                  className="text-sm font-medium hover:text-primary transition"
-                >
-                  Products
-                </Link>
-                <Link
-                  href="#testimonials"
-                  className="text-sm font-medium hover:text-primary transition"
-                >
-                  Testimonials
-                </Link>
-                <Link
-                  href="#pricing"
-                  className="text-sm font-medium hover:text-primary transition"
-                >
-                  Pricing
-                </Link>
-              </nav> */}
               <div className="flex items-center gap-3">
                 <Button
                   variant="ghost"
@@ -54,9 +36,7 @@ export default function LayoutComponent({
                 >
                   Log in
                 </Button>
-                {/* <Button asChild>
-                  <Link href="/signup">Sign up</Link>
-                </Button> */}
+                <ModeToggle />
               </div>
             </div>
           </div>
@@ -75,19 +55,6 @@ export default function LayoutComponent({
                     Curated collections from top brands delivered to your door.
                     Premium quality meets affordable pricing.
                   </p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" asChild className="text-base">
-                    <Link href="/shop">Shop Now</Link>
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    asChild
-                    className="text-base bg-transparent"
-                  >
-                    <Link href="/signup">Explore Collections</Link>
-                  </Button>
                 </div>
                 <div className="pt-4 space-y-3">
                   <p className="text-sm text-muted-foreground font-medium">
@@ -268,111 +235,16 @@ export default function LayoutComponent({
                 variant="secondary"
                 asChild
                 className="text-base font-semibold"
+                onClick={() => signIn("google")}
               >
-                <Link href="/signup">Create Free Account</Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="ghost"
-                asChild
-                className="text-base font-semibold"
-              >
-                <Link href="/shop">Continue Shopping</Link>
+                Log in now
               </Button>
             </div>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="bg-card border-t border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid md:grid-cols-4 gap-8 mb-8">
-              <div>
-                <h4 className="font-semibold text-foreground mb-4">About</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Careers
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Blog
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-4">Support</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Help Center
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Contact Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      FAQ
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-4">Legal</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Privacy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Terms
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Cookies
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-foreground mb-4">Follow</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Twitter
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Instagram
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="hover:text-foreground transition">
-                      Facebook
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="border-t border-border pt-8 text-center text-sm text-muted-foreground">
-              <p>&copy; 2025 StyleHub. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
+        <Fotter />
       </div>
     );
   }
