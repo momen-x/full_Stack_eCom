@@ -34,7 +34,7 @@ export default function LayoutComponent({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <Link href="/" className="flex items-center gap-2">
-                <img src={packgroundImage.src} alt="logo" />
+                <img src={packgroundImage.src} alt="logo"  className="w-4xl"/>
                 <span className="text-2xl font-bold text-foreground">eCom</span>
               </Link>
               <div className="flex items-center gap-3">
