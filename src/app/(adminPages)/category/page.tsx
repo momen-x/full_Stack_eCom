@@ -15,6 +15,8 @@ import domain from "@/app/utils/domain";
 import DeleteBTN from "@/app/_Components/Category/DeleteBTN";
 import { Eye, Pencil } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface Category {
   _id: string;
   title: string;
@@ -31,7 +33,7 @@ interface CategoriesResponse {
 const CategoriesManagementPage = async () => {
   let categories: Category[] = [];
   let error: string | null = null;
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   try {
     const response = await fetch(`${domain}/api/category`, {
       cache: "no-store", // Ensures fresh data on every request
