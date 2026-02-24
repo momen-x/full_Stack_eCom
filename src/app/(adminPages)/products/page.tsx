@@ -10,7 +10,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import DeleteBTN from "@/app/_Components/DeleteproductBTN/DeleteBTN";
 import { Eye, Pencil } from "lucide-react";
 
@@ -32,7 +32,7 @@ const ProductsManagementPage = async () => {
   let products: Product[] = [];
   let error: string | null = null;
   try {
-    const response = await fetch(`${domin}/api/products`, {
+    const response = await fetch(`${domain}/api/products`, {
       cache: "no-store", // Ensures fresh data on every request
     });
 
@@ -233,7 +233,7 @@ export default ProductsManagementPage;
 
 // ## **Key Changes:**
 
-// 1. ✅ **Fixed API endpoint** - Changed from `${domin}/products` to `${domin}/api/products`
+// 1. ✅ **Fixed API endpoint** - Changed from `${domain}/products` to `${domain}/api/products`
 // 2. ✅ **Added TypeScript interfaces** - Properly typed Product and ProductsResponse
 // 3. ✅ **Fixed data extraction** - `products = data.products || []` instead of just `data`
 // 4. ✅ **Added proper error handling** - Check `response.ok` and provide user-friendly error messages

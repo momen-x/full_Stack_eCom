@@ -1,7 +1,7 @@
 "use client";
 import { useAlertShowHide } from "@/app/Context/SnackBar";
 import getCategories from "@/app/server/getCategories";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -72,7 +72,7 @@ export default function AddNewProduct() {
           data.map((d) => ({
             _id: d._id,
             title: d.title,
-          }))
+          })),
         );
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -152,7 +152,7 @@ export default function AddNewProduct() {
   const handlePropertyChange = (
     index: number,
     field: "key" | "value",
-    value: string
+    value: string,
   ) => {
     const updatedProperties = [...properties];
     updatedProperties[index][field] = value;
@@ -177,24 +177,24 @@ export default function AddNewProduct() {
     ) {
       showAlert(
         "Please fill in all required fields including category selection",
-        "destructive"
+        "destructive",
       );
       return;
     }
 
     // ✅ Validate properties (ensure both key and value are filled)
     const validProperties = properties.filter(
-      (p) => p.key.trim() && p.value.trim()
+      (p) => p.key.trim() && p.value.trim(),
     );
     const hasInvalidProperties = properties.some(
       (p) =>
-        (p.key.trim() && !p.value.trim()) || (!p.key.trim() && p.value.trim())
+        (p.key.trim() && !p.value.trim()) || (!p.key.trim() && p.value.trim()),
     );
 
     if (hasInvalidProperties) {
       showAlert(
         "Please fill both property name and value, or remove empty properties",
-        "destructive"
+        "destructive",
       );
       return;
     }
@@ -217,7 +217,7 @@ export default function AddNewProduct() {
         formData.append("image", imageFile);
       }
 
-      const response = await axios.post(`${domin}/api/products`, formData, {
+      const response = await axios.post(`${domain}/api/products`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -231,7 +231,7 @@ export default function AddNewProduct() {
       if (axios.isAxiosError(error)) {
         showAlert(
           `${error.response?.data?.message || "Failed to add product"}`,
-          "destructive"
+          "destructive",
         );
       } else {
         showAlert("Failed to add product", "destructive");

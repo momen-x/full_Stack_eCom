@@ -1,6 +1,6 @@
 import DisplayProductList from "@/app/_Components/User/product/DisplayProductsList";
 import getProductsFromDB from "@/app/server/getProducts";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { Button } from "@/components/ui/button";
 import {
   ArrowBigLeftDash,
@@ -19,7 +19,7 @@ const CategoryDetailsPage = async ({
 }) => {
   const { id } = await params;
 
-  const response = await fetch(`${domin}/api/category/${id}`, {
+  const response = await fetch(`${domain}/api/category/${id}`, {
     next: { revalidate: 3600 }, // Cache for 1 hour
   });
   const data = await response.json();

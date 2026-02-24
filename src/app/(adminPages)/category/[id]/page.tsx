@@ -1,4 +1,4 @@
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { TCategory } from "@/app/validation/categoryValidation";
@@ -14,7 +14,7 @@ const CategoryDetailsPage = async ({
   let error = null;
 
   try {
-    const response = await fetch(`${domin}/api/category/${id}`, {
+    const response = await fetch(`${domain}/api/category/${id}`, {
       cache: "no-store", // Important for dynamic data
     });
 
@@ -32,7 +32,6 @@ const CategoryDetailsPage = async ({
     console.error("Fetch error:", err);
     error = "Failed to fetch category from API";
   }
-
 
   if (error) {
     return (

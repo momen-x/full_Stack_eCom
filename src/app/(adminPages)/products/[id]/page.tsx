@@ -1,4 +1,4 @@
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -9,7 +9,7 @@ const ProductInfo = async ({ params }: { params: Promise<{ id: string }> }) => {
   let error = null;
 
   try {
-    const response = await fetch(`${domin}/api/products/${id}`, {
+    const response = await fetch(`${domain}/api/products/${id}`, {
       cache: "no-store", // Important for dynamic data
     });
 
@@ -27,7 +27,6 @@ const ProductInfo = async ({ params }: { params: Promise<{ id: string }> }) => {
     console.error("Fetch error:", err);
     error = "Failed to fetch product from API";
   }
-
 
   if (error) {
     return (

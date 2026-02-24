@@ -1,6 +1,6 @@
 // app/server/getUserData.ts
 import axios from "axios";
-import domin from "../utils/Domin";
+import domain from "../utils/domain";
 
 export interface IUser {
   email: string;
@@ -37,7 +37,7 @@ export interface ReturnData {
 //   }
 
 //   try {
-//     const response = await axios.get<ReturnData>(`${domin}/api/users`);
+//     const response = await axios.get<ReturnData>(`${domain}/api/users`);
 
 //     cachedAdminEmails = response.data.users
 //       .filter((user) => user.isAdmin)
@@ -55,7 +55,7 @@ export interface ReturnData {
 
 export const getUserData = async (): Promise<IUser[]> => {
   try {
-    const response = await axios.get<ReturnData>(`${domin}/api/users`);
+    const response = await axios.get<ReturnData>(`${domain}/api/users`);
     const users = response.data.users;
     return users;
   } catch (error) {

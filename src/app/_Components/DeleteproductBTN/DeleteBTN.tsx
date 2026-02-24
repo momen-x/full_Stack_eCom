@@ -1,6 +1,6 @@
 "use client";
 
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -35,7 +35,7 @@ const DeleteBTN = ({
     setIsDeleting(true);
 
     try {
-      await axios.delete(`${domin}/api/products/${id}`);
+      await axios.delete(`${domain}/api/products/${id}`);
       showAlert("Product deleted successfully", "success");
       setIsDialogOpen(false);
       router.refresh();

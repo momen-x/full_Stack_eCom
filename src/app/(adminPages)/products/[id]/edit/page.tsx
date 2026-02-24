@@ -26,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import getCategories from "@/app/server/getCategories";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 
 interface Product {
   _id: string;
@@ -92,14 +92,13 @@ const EditProductPage = ({ params }: EditProductPageProps) => {
           description: string;
           createdAt: Date;
           updatedAt: Date;
-        
         }[] = response.categories;
 
         setCategories(
           data.map((d) => ({
             _id: d._id,
             title: d.title,
-          }))
+          })),
         );
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -115,7 +114,7 @@ const EditProductPage = ({ params }: EditProductPageProps) => {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`${domin}/api/products/${id}`);
+        const response = await fetch(`${domain}/api/products/${id}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch product");
@@ -185,7 +184,7 @@ const EditProductPage = ({ params }: EditProductPageProps) => {
   const handlePropertyChange = (
     index: number,
     field: "key" | "value",
-    value: string
+    value: string,
   ) => {
     const updatedProperties = [...properties];
     updatedProperties[index][field] = value;
@@ -242,7 +241,7 @@ const EditProductPage = ({ params }: EditProductPageProps) => {
       !formData.categoryId
     ) {
       setError(
-        "Please fill in all required fields including category selection"
+        "Please fill in all required fields including category selection",
       );
       setIsSubmitting(false);
       return;
@@ -250,16 +249,16 @@ const EditProductPage = ({ params }: EditProductPageProps) => {
 
     // ✅ Validate properties
     const validProperties = properties.filter(
-      (p) => p.key.trim() && p.value.trim()
+      (p) => p.key.trim() && p.value.trim(),
     );
     const hasInvalidProperties = properties.some(
       (p) =>
-        (p.key.trim() && !p.value.trim()) || (!p.key.trim() && p.value.trim())
+        (p.key.trim() && !p.value.trim()) || (!p.key.trim() && p.value.trim()),
     );
 
     if (hasInvalidProperties) {
       setError(
-        "Please fill both property name and value, or remove empty properties"
+        "Please fill both property name and value, or remove empty properties",
       );
       setIsSubmitting(false);
       return;
@@ -286,7 +285,7 @@ const EditProductPage = ({ params }: EditProductPageProps) => {
         submitData.append("image", imageFile);
       }
 
-      const response = await fetch(`${domin}/api/products/${id}`, {
+      const response = await fetch(`${domain}/api/products/${id}`, {
         method: "PUT",
         body: submitData,
       });

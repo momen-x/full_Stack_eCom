@@ -1,5 +1,5 @@
 import axios from "axios";
-import domin from "../utils/Domin";
+import domain from "../utils/domain";
 
 export interface IProperties {
   key: string;
@@ -25,7 +25,7 @@ interface IData {
 }
 
 export default async function getProductsFromDB() {
-  const response = await axios.get<IData>(`${domin}/api/products`);
+  const response = await axios.get<IData>(`${domain}/api/products`);
 
   return response.data;
 }

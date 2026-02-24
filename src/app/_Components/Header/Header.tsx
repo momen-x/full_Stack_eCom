@@ -6,7 +6,6 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 import {
   ChartBarStacked,
   HomeIcon,
-  // LogOut,
   Package,
   ChevronDown,
   ShoppingBag,
@@ -173,7 +172,7 @@ const UserHeader = () => {
               const Icon = page.icon;
 
               return (
-                <button
+                <Button
                   key={page.path}
                   onClick={() => router.push(pagePath)}
                   className={cn(
@@ -188,7 +187,7 @@ const UserHeader = () => {
                   {active && (
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-primary rounded-full" />
                   )}
-                </button>
+                </Button>
               );
             })}
           </nav>

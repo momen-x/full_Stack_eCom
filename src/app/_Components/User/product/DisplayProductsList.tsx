@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store/hook";
 import { actGetWishlist } from "@/app/store/Wishlist/WishlistSlice";
 
 import { Iproducts } from "@/app/server/getProducts";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import offerPrice from "@/app/utils/offerPrice";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -22,22 +22,20 @@ const DisplayProductList = ({ products }: { products: Iproducts[] }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-
-  
   const toggleLike = (productId: string) => {
     dispatch(
       actGetWishlist({
         userId: userId || "",
         productId: productId,
         wishlist: wishlist.productId.map(String),
-      })
+      }),
     );
     router.refresh();
   };
 
   const handleMoreDetails = (product: Iproducts) => {
     router.push(
-      `${domin}/user/products/productinfo?productId=${product._id}&categoryId=${product.categoryId}`
+      `${domain}/user/products/productinfo?productId=${product._id}&categoryId=${product.categoryId}`,
     );
   };
 
@@ -64,7 +62,7 @@ const DisplayProductList = ({ products }: { products: Iproducts[] }) => {
         price: product.price,
         img: product.image || defaultImage.src,
         category: product.categoryId,
-      })
+      }),
     );
   };
 
@@ -122,14 +120,14 @@ const DisplayProductList = ({ products }: { products: Iproducts[] }) => {
                     "h-10 w-10 rounded-full backdrop-blur-md shadow-xl transition-all duration-300 border mt-16",
                     wishlist.productId.includes(product._id)
                       ? "bg-red-500 hover:bg-red-600 text-white scale-110 border-red-500/30"
-                      : "bg-white/90 hover:bg-white text-gray-700 hover:text-red-500 border-white/50 hover:scale-110"
+                      : "bg-white/90 hover:bg-white text-gray-700 hover:text-red-500 border-white/50 hover:scale-110",
                   )}
                 >
                   <Heart
                     className={cn(
                       "h-4 w-4 transition-all duration-300",
                       wishlist.productId.includes(product._id) &&
-                        "fill-current scale-110"
+                        "fill-current scale-110",
                     )}
                   />
                 </Button>

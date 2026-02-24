@@ -1,6 +1,6 @@
 "use client";
 
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -35,7 +35,7 @@ const DeleteBTN = ({
     setIsDeleting(true);
 
     try {
-      await axios.delete(`${domin}/api/category/${id}`);
+      await axios.delete(`${domain}/api/category/${id}`);
       showAlert("Category deleted successfully", "success");
       setIsDialogOpen(false);
       router.refresh();
@@ -57,7 +57,7 @@ const DeleteBTN = ({
   return (
     <div>
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-         <p className="text-red-500">Delete </p>
+        <p className="text-red-500">Delete </p>
         <AlertDialogTrigger asChild>
           <Button
             variant="outline"
@@ -71,11 +71,8 @@ const DeleteBTN = ({
             ) : (
               <Trash2 className="w-4 h-4" />
             )}
-         
           </Button>
         </AlertDialogTrigger>
-
-      
 
         <AlertDialogContent className="max-w-md">
           <AlertDialogHeader>

@@ -1,6 +1,6 @@
 "use server"
 // import axios from "axios";
-import domin from "../utils/Domin";
+import domain from "../utils/domain";
 
 export interface ICategory {
   title: string;
@@ -16,6 +16,6 @@ interface IReturnDate {
 }
 
 export default async function getCategories(): Promise<IReturnDate> {
-  const response = await fetch(`${domin}/api/category`);
+  const response = await fetch(`${domain}/api/category`);
   return await response.json();
 }

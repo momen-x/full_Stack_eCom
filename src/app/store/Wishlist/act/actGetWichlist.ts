@@ -1,4 +1,4 @@
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -14,7 +14,7 @@ export const actGetWishlist = createAsyncThunk(
       productId: string;
       wishlist: string[];
     },
-    thunkAPI
+    thunkAPI,
   ) => {
     const { rejectWithValue } = thunkAPI;
     try {
@@ -23,7 +23,7 @@ export const actGetWishlist = createAsyncThunk(
         type: "add" | "remove";
         productId: string;
         wishlist: string[];
-      }>(`${domin}/api/users`, {
+      }>(`${domain}/api/users`, {
         userId: userId,
         productId: productId,
         process: "addOrRemoveItemFromWichlist",
@@ -41,5 +41,5 @@ export const actGetWishlist = createAsyncThunk(
         return rejectWithValue("An unexpected error occurred");
       }
     }
-  }
+  },
 );

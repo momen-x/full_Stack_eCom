@@ -83,6 +83,7 @@ export async function POST(request: NextRequest) {
  * @method GET
  * @route ~/api/category
  * @description Get all categories
+ * @access public
  */
 export async function GET() {
   try {

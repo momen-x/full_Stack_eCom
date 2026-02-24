@@ -1,5 +1,5 @@
 "use client";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { useAlertShowHide } from "@/app/Context/SnackBar";
 import {
   addCategortySchema,
@@ -48,7 +48,7 @@ const EditCategoryForm = ({ id }: { id: string | number }) => {
     const fetchCateg = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${domin}/api/category/${id}`);
+        const response = await axios.get(`${domain}/api/category/${id}`);
         const category = response.data.category;
 
         setCategoryDataF({
@@ -73,10 +73,10 @@ const EditCategoryForm = ({ id }: { id: string | number }) => {
 
   if (isLoading) return <div>Loading...</div>;
   const handleUpdateCategorySubmit: SubmitHandler<TCategory> = async (
-    data: TCategory
+    data: TCategory,
   ) => {
     try {
-      await axios.put(`${domin}/api/category/${id}`, data, {
+      await axios.put(`${domain}/api/category/${id}`, data, {
         headers: {
           "Content-Type": "application/json",
         },

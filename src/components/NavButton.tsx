@@ -24,7 +24,7 @@ const NavButton = ({
   variant = "sidebar",
   isSidebarOpen = true,
   exact = false,
-  showTooltip = false,
+  // showTooltip = false,
   onClick,
 }: NavButtonProps) => {
   const pathname = usePathname();
@@ -60,7 +60,7 @@ const NavButton = ({
 
   const buttonContent = (
     <>
-      <Icon className={cn("h-4 w-4 flex-shrink-0", config.iconClass)} />
+      <Icon className={cn("h-4 w-4 shrink-0", config.iconClass)} />
       {config.showLabel && (
         <span
           className={cn(

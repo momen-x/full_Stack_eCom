@@ -1,7 +1,7 @@
 "use client";
 
 import { IUser } from "@/app/server/getUserData";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ export default function UserTable({ initialUsers }: UserTableProps) {
   const handleToggleAdmin = async (userId: string, newAdminStatus: boolean) => {
     setLoading(userId);
     try {
-      const response = await fetch(`${domin}/api/users`, {
+      const response = await fetch(`${domain}/api/users`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -40,8 +40,8 @@ export default function UserTable({ initialUsers }: UserTableProps) {
         // Update local state
         setUsers(
           users.map((user) =>
-            user._id === userId ? { ...user, isAdmin: newAdminStatus } : user
-          )
+            user._id === userId ? { ...user, isAdmin: newAdminStatus } : user,
+          ),
         );
 
         // If updating self, force session update
@@ -56,7 +56,7 @@ export default function UserTable({ initialUsers }: UserTableProps) {
           newAdminStatus
             ? "Admin privileges granted successfully"
             : "Admin privileges removed successfully",
-          "success"
+          "success",
         );
       } else {
         console.error("Failed to update admin status:", data.error);

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import {
   Table,
   TableBody,
@@ -10,36 +11,38 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import DeleteBTN from "@/app/_Components/Category/DeleteBTN";
 import { Eye, Pencil } from "lucide-react";
 
-interface category {
+interface Category {
   _id: string;
   title: string;
   description: string;
   createdAt?: string;
 }
 
-interface categoriesResponse {
-  categories: category[];
+interface CategoriesResponse {
+  categories: Category[];
   count: number;
   status: number;
 }
 
 const CategoriesManagementPage = async () => {
-  let categories: category[] = [];
+  let categories: Category[] = [];
   let error: string | null = null;
+  const cookieStore = cookies();
   try {
-    const response = await fetch(`${domin}/api/category`, {
+    const response = await fetch(`${domain}/api/category`, {
       cache: "no-store", // Ensures fresh data on every request
+      headers: { Cookie: cookieStore.toString() },
     });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data: categoriesResponse = await response.json();
+    const data: CategoriesResponse = await response.json();
 
     categories = data.categories || [];
   } catch (err) {
@@ -123,7 +126,7 @@ const CategoriesManagementPage = async () => {
                                     year: "numeric",
                                     month: "short",
                                     day: "numeric",
-                                  }
+                                  },
                                 )
                               : "N/A"}
                           </TableCell>
@@ -170,7 +173,7 @@ const CategoriesManagementPage = async () => {
                             <p className="text-xs text-muted-foreground">
                               Created:{" "}
                               {new Date(
-                                category.createdAt
+                                category.createdAt,
                               ).toLocaleDateString()}
                             </p>
                           )}

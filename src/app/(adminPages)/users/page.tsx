@@ -1,13 +1,13 @@
 // app/user-data/page.tsx
 import UserTable from "@/app/_Components/Admin/UserTable";
 import { IUser } from "@/app/server/getUserData";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 
 const UserDataPage = async () => {
   let users: IUser[] = [];
 
   try {
-    const response = await fetch(`${domin}/api/users`, {
+    const response = await fetch(`${domain}/api/users`, {
       cache: "no-store",
     });
 

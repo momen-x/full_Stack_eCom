@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { Iproducts, IProperties } from "@/app/server/getProducts";
 import offerPrice from "@/app/utils/offerPrice";
 import defaultImage from "@/app/assets/defualtImage.png";
@@ -52,7 +52,7 @@ const ProductInfoPage = () => {
     const fetchCategoryName = async () => {
       if (categoryId) {
         try {
-          const response = await fetch(`${domin}/api/category/${categoryId}`);
+          const response = await fetch(`${domain}/api/category/${categoryId}`);
           const data = await response.json();
           setCategory(data.category.title);
         } catch (error) {
@@ -66,7 +66,7 @@ const ProductInfoPage = () => {
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${domin}/api/products/${productId}`);
+      const response = await fetch(`${domain}/api/products/${productId}`);
       const data = await response.json();
 
       const mockProduct: Iproducts = data.product as Iproducts;
@@ -89,7 +89,7 @@ const ProductInfoPage = () => {
         price: product.price,
         img: product.image || defaultImage.src,
         category: product.categoryId,
-      })
+      }),
     );
 
     // Add quantity times
@@ -101,7 +101,7 @@ const ProductInfoPage = () => {
           price: product.price,
           img: product.image || defaultImage.src,
           category: product.categoryId,
-        })
+        }),
       );
     }
     showAlert(`added sucessfully , quantity (${quantity})`, "success");
@@ -185,13 +185,13 @@ const ProductInfoPage = () => {
                   "absolute top-4 right-4 h-12 w-12 rounded-full backdrop-blur-md shadow-lg transition-all duration-300 z-10",
                   isLiked
                     ? "bg-red-500 hover:bg-red-600 text-white scale-100 ring-4 ring-red-500/30"
-                    : "bg-white/95 hover:bg-white text-gray-700 hover:text-red-500"
+                    : "bg-white/95 hover:bg-white text-gray-700 hover:text-red-500",
                 )}
               >
                 <Heart
                   className={cn(
                     "h-5 w-5 transition-all duration-200",
-                    isLiked && "fill-current"
+                    isLiked && "fill-current",
                   )}
                 />
               </Button>
@@ -311,13 +311,13 @@ const ProductInfoPage = () => {
                 onClick={() => setIsLiked(!isLiked)}
                 className={cn(
                   "h-12 w-12 transition-all",
-                  isLiked && "bg-red-50 border-red-200 hover:bg-red-100"
+                  isLiked && "bg-red-50 border-red-200 hover:bg-red-100",
                 )}
               >
                 <Heart
                   className={cn(
                     "h-5 w-5 transition-all",
-                    isLiked ? "fill-red-500 text-red-500" : ""
+                    isLiked ? "fill-red-500 text-red-500" : "",
                   )}
                 />
               </Button>

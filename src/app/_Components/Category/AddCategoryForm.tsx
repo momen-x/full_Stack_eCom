@@ -1,5 +1,5 @@
 "use client";
-import domin from "@/app/utils/Domin";
+import domain from "@/app/utils/domain";
 import { useAlertShowHide } from "@/app/Context/SnackBar";
 import {
   addCategortySchema,
@@ -35,16 +35,15 @@ const AddCategoryForm = () => {
   });
 
   const handleAddCategorySubmit: SubmitHandler<TCategory> = async (
-    data: TCategory
+    data: TCategory,
   ) => {
     try {
       // ✅ Send as JSON (not FormData)
-      const response = await axios.post(`${domin}/api/category`, data, {
+      const response = await axios.post(`${domain}/api/category`, data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-
 
       showAlert("Category created successfully!", "success", "Success");
 
@@ -70,9 +69,9 @@ const AddCategoryForm = () => {
   return (
     <div className="min-h-screen bg-background py-8 px-4 sm:px-6 lg:px-8">
       {/* Header Section */}
-        <Button onClick={() => router.back()}>
-          Back <ArrowBigLeft />
-        </Button>
+      <Button onClick={() => router.back()}>
+        Back <ArrowBigLeft />
+      </Button>
       <div className="max-w-2xl mx-auto mb-8 text-center">
         <h1 className="text-3xl font-bold tracking-tight mb-2">
           Add New Category
