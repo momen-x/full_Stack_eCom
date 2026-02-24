@@ -15,6 +15,8 @@ import domain from "@/app/utils/domain";
 import DeleteBTN from "@/app/_Components/Category/DeleteBTN";
 import { Eye, Pencil } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface Category {
   _id: string;
   title: string;
