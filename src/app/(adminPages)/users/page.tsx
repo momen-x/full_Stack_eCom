@@ -3,6 +3,8 @@ import UserTable from "@/app/_Components/Admin/UserTable";
 import { IUser } from "@/app/server/getUserData";
 import domain from "@/app/utils/domain";
 
+export const dynamic = "force-dynamic";
+
 const UserDataPage = async () => {
   let users: IUser[] = [];
 
