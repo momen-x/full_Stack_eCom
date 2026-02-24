@@ -7,7 +7,7 @@ export default function SignInPage() {
       <form
         action={async () => {
           "use server";
-          await signIn("google", { redirectTo: "/" });
+          await signIn("google", { redirectTo: "/", authorization: { params: { prompt: "select_account" } } });
         }}
         className="flex flex-col items-center gap-4"
       >

@@ -19,6 +19,9 @@ declare module "next-auth" {
   }
 }
 
+// Define admin emails
+const adminEmails = ["user2@gmail.com"]; // Add your admin emails here
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   trustHost: true,
@@ -30,10 +33,39 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
 
   callbacks: {
+    async signIn({ user, account, profile }) {
+      // Check if the user is an admin based on email
+      const isAdmin: boolean = user.email ? adminEmails.includes(user.email) : false;
+
+      // Update the user in database with admin status
+      const client = await clientPromise;
+      const db = client.db("eComDB");
+      
+      await db.collection("users").updateOne(
+        { email: user.email },
+        { 
+          $set: { 
+            isAdmin: isAdmin,
+            name: user.name,
+            image: user.image
+          },
+          $setOnInsert: {
+            email: user.email,
+            createdAt: new Date()
+          }
+        },
+        { upsert: true }
+      );
+
+      user.isAdmin = isAdmin;
+      return true;
+    },
+
     async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        session.user.isAdmin = Boolean(user.isAdmin);
+        // Check admin status based on email, not just database field
+        session.user.isAdmin = user.email ? adminEmails.includes(user.email) : Boolean(user.isAdmin);
       }
       return session;
     },
